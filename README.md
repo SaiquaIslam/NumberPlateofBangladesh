@@ -6,5 +6,3 @@ ii.	We have used the YOLOv4 object detector which gives a more accurate result f
 
 iii.	Python Tesseract OCR has been used with many image processing approaches which is less complex and also faster.
 
-iv.	We have used the image subtraction method to detect the still objects in an image.
-
