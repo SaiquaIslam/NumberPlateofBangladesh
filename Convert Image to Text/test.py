@@ -7,9 +7,9 @@ except ImportError:
 import os
 import numpy as np
 import bangla
-from googletrans import Translator
+#from googletrans import Translator
 
-gray = cv2.imread("112.PNG", 0)
+gray = cv2.imread("Plate.png", 0)
 height,width=gray.shape
 gray = cv2.resize( gray, None, fx = 100/height, fy = 200/width, interpolation = cv2.INTER_CUBIC)
 #cv2.imshow("Gray", gray)
@@ -23,7 +23,7 @@ ret, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_IN
 rect_kern = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
 
 # apply dilation
-dilation = cv2.dilate(thresh, rect_kern, iterations = 3)
+dilation = cv2.dilate(thresh, rect_kern, iterations = 1)
 cv2.imshow("dilation", dilation)
 cv2.waitKey(0)
 try:
@@ -58,11 +58,11 @@ for cnt in sorted_contours:
     roi = thresh[y - 5:y + h + 5, x - 5:x + w + 5]
     roi = cv2.bitwise_not(roi)
     roi = cv2.medianBlur(roi, 5)
-    #cv2.imshow("ROI", roi)
-    #cv2.waitKey(0)
+    cv2.imshow("ROI", roi)
+    cv2.waitKey(0)
     custom_config = r' tessedit_char_whitelist=০১২৩৪৫৬৭৮৯ঢাকা -l ben --psm 8 --oem 3'
-    pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/tesseract-ocr/tesseract.exe"
-    text = pytesseract.image_to_string(gray, lang="ben", config=custom_config)
+    pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
+    text = pytesseract.image_to_string(dilation, lang="ben", config=custom_config)
     #text=bangla.convert_english_digit_to_bangla_digit(text)
     #print(height)
     plate_num += text
